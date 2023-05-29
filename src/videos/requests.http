@@ -1,0 +1,11 @@
+POST http://localhost:3000/videos
+content-type: application/json
+
+{
+  "title": "Build Nest.js Microservices",
+  "desc": "we build a complete Nest.js microservices application using RabbitMQ as our distributed fault-tolerant message broker.",
+  "url": "https://www.youtube.com/watch?v=yuVVKB0EaOQ"
+}
+
+### Get video list
+GET http://localhost:3000/videos
