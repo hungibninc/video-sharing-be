@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './video.entity';
@@ -9,20 +9,25 @@ import { User } from '../users/user.entity';
 export class VideosService {
   constructor(@InjectRepository(Video) private repo: Repository<Video>) {}
 
-  getEstimate(user: User) {
-    const userId = user.id;
+  getVideo() {
     return this.repo.createQueryBuilder()
       .select('*')
-      // .where('1=1')
-      .where('userId=:userId', {userId})
+      .where('1=1')
+      // .where('userId=:userId', {userId})
       .getRawMany();
   }
 
   create(videoDto: CreateVideoDto, user: User) {
-    const video = this.repo.create(videoDto);
-    video.user = user;
-
-    return this.repo.save(video);
+    
+    const regExp = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    if(videoDto.url.match(regExp)){
+      const video = this.repo.create(videoDto);
+      video.user = user;
+      return this.repo.save(video);
+    } else {
+      throw new BadRequestException('url should be Youtube');
+    }
+    
   }
 
 }

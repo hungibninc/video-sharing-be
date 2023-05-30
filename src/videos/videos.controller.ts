@@ -21,8 +21,8 @@ export class VideosController {
   constructor(private videosService: VideosService) {}
 
   @Get()
-  getEstimate(@CurrentUser() user: User) {
-    return this.videosService.getEstimate(user);
+  getVideo() {
+    return this.videosService.getVideo();
   }
 
   @Post()
