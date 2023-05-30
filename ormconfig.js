@@ -1,11 +1,11 @@
 var dbConfig = {
+  synchronize: false,
   migrations: ['migrations/*.js'],
 };
 
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
-      synchronize: true,
       type: 'mysql',
       host: '127.0.0.1',
       database: 'videosharing',
@@ -17,17 +17,14 @@ switch (process.env.NODE_ENV) {
     break;
   case 'test':
     Object.assign(dbConfig, {
-      synchronize: false,
-      migrationsRun: true,
       type: 'sqlite',
       database: 'test.sqlite',
       entities: ['**/*.entity.ts'],
+      migrationsRun: true,
     });
     break;
   case 'production':
     Object.assign(dbConfig, {
-      synchronize: false,
-      migrationsRun: true,
       type: 'mysql',
       database: process.env.DB_NAME,
       host: process.env.DB_HOST,
@@ -35,6 +32,7 @@ switch (process.env.NODE_ENV) {
       password: process.env.DB_PASSWORD,
       port: 3306,
       entities: ['**/*.entity.js'],
+      migrationsRun: true,
     });
     break;
   default:
