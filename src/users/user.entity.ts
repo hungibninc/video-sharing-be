@@ -5,7 +5,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 import { Video } from '../videos/video.entity';
 // do not use Exclude that suggested from Nest
@@ -26,10 +26,15 @@ export class User {
   // @Exclude()
   password: string;
 
-  @Column({default: true})
+  @Column({ default: false })
   admin: boolean;
 
-  @OneToMany(() => Video, (video) => {video.user})
+  @OneToMany(
+    () => Video,
+    (video) => {
+      video.user;
+    },
+  )
   videos: Video[];
 
   @AfterInsert()
