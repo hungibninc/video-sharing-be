@@ -9,9 +9,9 @@ export class Video {
   @Column()
   title: string;
 
-  @Column()
+  @Column('text')
   desc: string;
-  
+
   @Column()
   url: string;
 
@@ -19,6 +19,11 @@ export class Video {
    * () => User: this is saying Video entity is going to be associated with User entity
    * (user) => {user.Videos}: take an instance of the entity that Video entity is trying to relate to
    */
-  @ManyToOne(() => User, (user) => {user.videos})
+  @ManyToOne(
+    () => User,
+    (user) => {
+      user.videos;
+    },
+  )
   user: User;
 }

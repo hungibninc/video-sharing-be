@@ -22,7 +22,7 @@ export class AuthService {
 
     // Hash the users password
     // Generate a salt
-    // randomBytes function is going to return back to us a random characters using 0 or 1, then takes those random 1 and 0 and turn it into a hexadecimal string, which basically just means a bunch of random numbers and letters. 
+    // randomBytes function is going to return back to us a random characters using 0 or 1, then takes those random 1 and 0 and turn it into a hexadecimal string, which basically just means a bunch of random numbers and letters.
     // Parameter 8 means that our buffer is going to have 8 bytes worth of data inside of it, every one bit of data turns into 2 characters when we convert it to hex. So our salt is going to be a 16 character long string
     const salt = randomBytes(8).toString('hex');
 
@@ -54,5 +54,35 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async signinnsignup(email: string, password: string) {
+    // See if email is in use
+    const user = await this.usersService.findEmail(email);
+    if (user) {
+      const [salt, storedHash] = user.password.split('.');
+
+      const hash = (await scrypt(password, salt, 32)) as Buffer;
+
+      if (storedHash !== hash.toString('hex')) {
+        throw new BadRequestException('Invalid password');
+      }
+
+      return user;
+    }
+
+    const newsalt = randomBytes(8).toString('hex');
+
+    // Hash the salt and the password together
+    const newhash = (await scrypt(password, newsalt, 32)) as Buffer;
+
+    // Join the hashed result and the salt together
+    const result = newsalt + '.' + newhash.toString('hex');
+
+    // Create a new user and save it
+    const newuser = await this.usersService.create(email, result);
+
+    // return the user
+    return newuser;
   }
 }

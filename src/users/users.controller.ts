@@ -36,15 +36,33 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  @Post('/signinnsignup')
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signinnsignup(
+      body.email,
+      body.password,
+    );
+    session.userId = user.id;
+    return user;
+  }
+
   @Get('/current-user')
   @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
     return user;
   }
 
-  @Post('/signout')
+  @Get('/signout')
   signOut(@Session() session: any) {
     session.userId = null;
+  }
+
+  /* 
+  @Post('/signin')
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Post('/signup')
@@ -56,14 +74,7 @@ export class UsersController {
     return user;
   }
 
-  @Post('/signin')
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body.email, body.password);
-    session.userId = user.id;
-    return user;
-  }
-
-  /* @Get('/:id')
+  @Get('/:id')
   async findUser(@Param('id') id: string) {
     const user = await this.usersService.findOne(parseInt(id));
     if (!user) {
