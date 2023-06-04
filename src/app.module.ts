@@ -50,12 +50,9 @@ export class AppModule {
         cookieSession({
           //  asdfasfd string is going to be used to encrypt the information that is stored inside the cookie
           keys: [this.configService.get('COOKIE_KEY')],
-<<<<<<< HEAD
-=======
           httpOnly: true,
           secure: true,
           sameSite: 'none',
->>>>>>> main
           maxAge: 24 * 60 * 60 * 1000, // 24 hours
         }),
       )
