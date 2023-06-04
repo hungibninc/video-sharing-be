@@ -46,7 +46,7 @@ export class VideosService {
         youtubeId +
         '&key=' +
         process.env.API_KEY;
-
+      console.log(apiUrl);
       const { data } = await firstValueFrom(
         this.httpService.get(apiUrl).pipe(
           catchError((error: AxiosError) => {
@@ -60,7 +60,7 @@ export class VideosService {
         const item = data.items[0];
         const title = item.snippet.title;
         const url = process.env.API_YOUTUBE_URL + youtubeId;
-
+        console.log(url);
         const notification = {
           name: user.name,
           email: user.email,
