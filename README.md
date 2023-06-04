@@ -64,8 +64,6 @@ API_GOOGLE_URL=<https://www.googleapis.com/youtube/v3/videos?part=snippet&fields
 API_YOUTUBE_URL=https://www.youtube.com/watch?v=
 ```
 
-
-
 #### Install Dependencies
 1. If you are not in your system terminal/command prompt already, please open it and go to the directory where you cloned the remote repository or extracted the project files.
 2. While in the project root directory, type
@@ -74,7 +72,7 @@ API_YOUTUBE_URL=https://www.youtube.com/watch?v=
 yarn
 ```
 
-This command will install all the necessary gems in your system.
+This command will install all the necessary dependencies in your system.
 
 ## Database Setup
 
