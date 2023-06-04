@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { VideosController } from './videos.controller';
 import { VideosService } from './videos.service';
 import { Video } from './video.entity';
+import { VideoGateway } from './video.gateway';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { Video } from './video.entity';
     }),
   ],
   controllers: [VideosController],
-  providers: [VideosService],
+  providers: [VideosService, VideoGateway],
 })
 export class VideosModule {}

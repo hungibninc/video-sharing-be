@@ -1,93 +1,122 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<div align="center">
+<h1><a href="https://video-sharing-be-production-7451.up.railway.app/" target="_blank" rel="noopener noreferrer">Funny Movie API</a></h1>
+</div>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<div align="center">
+    <img src="https://img.shields.io/badge/-Swagger-85EA2D?logo=swagger&logoColor=black">
+    <img src="https://img.shields.io/badge/-Socket.io-black?logo=socket.io&logoColor=white">
+    <img src="https://img.shields.io/badge/-nestjs-ff3f59?logo=nestjs&logoColor=white">
+    <img src="https://img.shields.io/badge/-Railway-0B0D0E?logo=Railway">
+    <img src="https://img.shields.io/badge/-youtube-ff0000?logo=youtube&logoColor=white">
+</div>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<br>
 
-## Description
+<p align="center">This <strong>RESTFUL</strong> API works as the backend for a React web app.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<br>
 
-## Installation
 
-```bash
-$ yarn install
+## Introduction
+
+Funny Movie API is the backend for a ***fully responsive*** web app. The front end of the app is handled separately by another app. The [repo for the front-end is here](https://github.com/hungibninc/video-sharing-fe). We use cross-site session cookies to handle user authentication. We use TypeORM which supports all of the most commonly used database-supported column types.
+
+### Features
+- authenticate user
+- create new user
+- create video
+- show all videoes
+- real-time notification about the newly shared video
+
+## Prerequisites
+
+- Node v18.10.0
+- Git bash
+- MySQL
+
+## Installation & Configuration
+
+To get a local copy up and running, follow these simple example steps.
+
+#### Get files
+1. Open your terminal or command prompt.
+2. If you do not have git installed in your system, skip this step and go to step 3; otherwise, go to the directory where you want to copy the project files and clone it by copying this text into your command prompt/terminal:
+   
 ```
+  git clone git@github.com:hungibninc/video-sharing-be.git
+```
+  <br>
+
+1. Download the program files by clicking on the green button that says “**Code**” on the upper right side of the project frame.
+2. You will see a dropdown menu. Click on “**Download ZIP**.”
+3. Go to the directory where you downloaded the **ZIP file** and open it. Extract its contents to any directory you want in your system.
+
+### Local deploy
+
+#### Environment variable
+
+Copy the API Environment variable into your .env file
+
+```
+COOKIE_KEY=<random_string>
+API_KEY=<google_key_enable_youtube_data_api>
+API_GOOGLE_URL=<https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items(id,snippet)>
+API_YOUTUBE_URL=https://www.youtube.com/watch?v=
+```
+
+#### Install Dependencies
+1. If you are not in your system terminal/command prompt already, please open it and go to the directory where you cloned the remote repository or extracted the project files.
+2. While in the project root directory, type
+   
+```
+yarn
+```
+
+This command will install all the necessary dependencies in your system.
+
+## Database Setup
+
+Open ormconfig.js and follow these steps
+
+1. Update dbConfig.synchronize to true
+2. Update database name, database username, database password with the database in your local
 
 ## Running the app
 
+#### development mode
 ```bash
-# development
 $ yarn run start
+```
 
-# watch mode
+#### watch mode
+```bash
 $ yarn run start:dev
+```
 
-# production mode
+#### production mode
+```bash
 $ yarn run start:prod
 ```
 
 ## Test
 
+#### unit tests
+
 ```bash
-# unit tests
 $ yarn run test
+```
 
-# e2e tests
+#### e2e tests
+```bash
 $ yarn run test:e2e
+```
 
-# test coverage
+#### test coverage
+```bash
 $ yarn run test:cov
 ```
 
-## Deploy with Heroku
+## Usage
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hungibninc/nestjs-car-value/tree/master)
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fhungibninc%2Fnestjs-car-value)
-
-## Deploy to [Cyclic](https://app.cyclic.sh/#/join/geshan)
-
-[![Deploy to Cyclic](https://deploy.cyclic.app/button.svg)](https://deploy.cyclic.app/)
-
-## Deploy to [Render](https://render.com)
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
-
-### Running on Vercel
-
-At: [https://nodejs-postgresql.vercel.app/quotes](https://nodejs-postgresql.vercel.app/quotes)
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Hung Le](https://oppsthat.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+All the endpoints necessary to use our API here:
+[Documentation](https://video-sharing-be-production-7451.up.railway.app/api/)
