@@ -52,6 +52,7 @@ export class AppModule {
           keys: [this.configService.get('COOKIE_KEY')],
           secure: true,
           sameSite: 'none',
+          maxAge: 24 * 60 * 60 * 1000, // 24 hours
         }),
       )
       .forRoutes('*'); //  this means that we want to make use of this middleware on every single incoming request that flows into our entire application.
