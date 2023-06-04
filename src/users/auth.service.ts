@@ -13,11 +13,11 @@ const scrypt = promisify(_scrypt);
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async signup(email: string, password: string) {
+  async signup(name: string, email: string, password: string) {
     // See if email is in use
     const users = await this.usersService.find(email);
     if (users.length) {
-      throw new BadRequestException('email in use');
+      throw new BadRequestException('Email is already used.');
     }
 
     // Hash the users password
@@ -33,7 +33,7 @@ export class AuthService {
     const result = salt + '.' + hash.toString('hex');
 
     // Create a new user and save it
-    const user = await this.usersService.create(email, result);
+    const user = await this.usersService.create(name, email, result);
 
     // return the user
     return user;
@@ -42,7 +42,7 @@ export class AuthService {
   async signin(email: string, password: string) {
     const [user] = await this.usersService.find(email);
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('User not found');
     }
 
     const [salt, storedHash] = user.password.split('.');
@@ -50,13 +50,13 @@ export class AuthService {
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
     if (storedHash !== hash.toString('hex')) {
-      throw new BadRequestException('bad password');
+      throw new BadRequestException('Bad password');
     }
 
     return user;
   }
 
-  async signinnsignup(email: string, password: string) {
+  async signinnsignup(name: string, email: string, password: string) {
     // See if email is in use
     const user = await this.usersService.findEmail(email);
     if (user) {
@@ -80,7 +80,7 @@ export class AuthService {
     const result = newsalt + '.' + newhash.toString('hex');
 
     // Create a new user and save it
-    const newuser = await this.usersService.create(email, result);
+    const newuser = await this.usersService.create(name, email, result);
 
     // return the user
     return newuser;

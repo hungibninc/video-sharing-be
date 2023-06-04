@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { SignInUserDto } from './dtos/sign-in-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -36,19 +37,32 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
-  @Post('/signinnsignup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signinnsignup(
-      body.email,
-      body.password,
-    );
+  @Get('/')
+  @UseGuards(AuthGuard)
+  whoAmI(@CurrentUser() user: User) {
+    return user;
+  }
+
+  @Post('/signin')
+  async signin(@Body() body: SignInUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
     return user;
   }
 
-  @Get('/current-user')
-  @UseGuards(AuthGuard)
-  whoAmI(@CurrentUser() user: User) {
+  @Post('/signup')
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 400, description: 'Email is already used.' })
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(
+      body.name,
+      body.email,
+      body.password,
+    );
+    session.userId = user.id;
     return user;
   }
 
@@ -58,21 +72,17 @@ export class UsersController {
   }
 
   /* 
-  @Post('/signin')
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body.email, body.password);
+  @Post('/signinnsignup')
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signinnsignup(
+      body.name,
+      body.email,
+      body.password,
+    );
     session.userId = user.id;
     return user;
   }
 
-  @Post('/signup')
-  @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
-  @ApiResponse({ status: 400, description: 'email in use'})
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signup(body.email, body.password);
-    session.userId = user.id;
-    return user;
-  }
 
   @Get('/:id')
   async findUser(@Param('id') id: string) {

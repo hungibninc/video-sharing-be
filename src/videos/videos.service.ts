@@ -12,12 +12,14 @@ import { User } from '../users/user.entity';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
+import { VideoGateway } from './video.gateway';
 
 @Injectable()
 export class VideosService {
   constructor(
     @InjectRepository(Video) private repo: Repository<Video>,
     private readonly httpService: HttpService,
+    private readonly videoGateway: VideoGateway,
   ) {}
 
   getVideo() {
@@ -39,9 +41,10 @@ export class VideosService {
     if (matchs) {
       const youtubeId = matchs[1];
       const apiUrl =
-        'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' +
+        process.env.API_GOOGLE_URL +
+        '&id=' +
         youtubeId +
-        '&fields=items(id,snippet)&key=' +
+        '&key=' +
         process.env.API_KEY;
 
       const { data } = await firstValueFrom(
@@ -55,9 +58,21 @@ export class VideosService {
       //  video exists
       if (data.items[0]) {
         const item = data.items[0];
+        const title = item.snippet.title;
+        const url = process.env.API_YOUTUBE_URL + youtubeId;
+
+        const notification = {
+          name: user.name,
+          email: user.email,
+          title,
+        };
+        // console.log(notification);
+        //  send share url notification
+        this.videoGateway.server.emit('share', notification);
+
         const video = this.repo.create(videoDto);
-        video.title = item.snippet.title;
-        video.url = 'https://www.youtube.com/watch?v=' + youtubeId;
+        video.title = title;
+        video.url = url;
         video.desc = item.snippet.description;
         video.user = user;
         return this.repo.save(video);
