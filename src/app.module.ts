@@ -50,6 +50,8 @@ export class AppModule {
         cookieSession({
           //  asdfasfd string is going to be used to encrypt the information that is stored inside the cookie
           keys: [this.configService.get('COOKIE_KEY')],
+          secure: true,
+          sameSite: 'none',
         }),
       )
       .forRoutes('*'); //  this means that we want to make use of this middleware on every single incoming request that flows into our entire application.
